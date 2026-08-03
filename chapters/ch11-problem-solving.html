@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 11 章 解决问题 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 11 章 解决问题</span></div>
+<div class="chapter-head"><h1>第 11 章 解决问题</h1><span class="slug">ch11-problem-solving</span></div>
+<p class="lead">备份脚本的四个演进版本，以及自顶向下的设计思路。</p>
+<p class="muted">本页共 <b>5</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">backup_ver1.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: backup_ver1.py
+
+import os
+import time
+
+# 1. The files and directories to be backed up are specified in a list.
+source = [&#x27;C:\\tmp&#x27;, &#x27;C:\\temp&#x27;]
+running = True
+while running:
+    your_source=input(&quot;Your own path or your own file path:&quot;)
+    source.append(your_source)
+    if input(&quot;Do you want to add file or folder(y/n):&quot;)==&#x27;n\r&#x27;:
+        running = False
+# Notice we had to use double quotes inside the string for names with spaces in it.
+
+# 2. The backup must be stored in a main backup directory
+target_dir = &#x27;C:\\backup\\log&#x27; # Remember to change this to what you will be using
+
+# 3. The files are backed up into a rar file.
+
+# 4. The name of the rar archive is the current date and time
+target = target_dir+\
+         time.strftime(&#x27;%Y&#x27;)+&#x27;年&#x27;+\
+         time.strftime(&#x27;%m&#x27;)+&#x27;月&#x27;+\
+         time.strftime(&#x27;%d&#x27;)+&#x27;日_&#x27;+\
+         time.strftime(&#x27;%H&#x27;)+&#x27;时&#x27;+\
+         time.strftime(&#x27;%M&#x27;)+&#x27;分&#x27;+\
+         time.strftime(&#x27;%S&#x27;)+&#x27;秒&#x27;+\
+         &#x27;.rar&#x27;
+
+# 5. We use the rar command to put the files in a rar archive
+zip_command = &quot;rar a {0} {1}&quot;.format(target,&#x27; &#x27;.join(source))
+
+# Run the backup
+# 通过给系统传递参数来执行压缩命令（压缩使用的是WinRAR所带文件rar.exe来执行压缩）
+if os.system(zip_command) == 0:
+    print(&#x27;Successful backup to&#x27;,target)
+else:
+    print(&#x27;Backup FAILED&#x27;)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">backup_ver2.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: backup_ver2.py
+
+import os
+import time
+
+# 1. The files and directories to be backed up are specified in a list.
+# 要备份的文件或目录
+source = [&#x27;&quot;C:\\tmp&quot;&#x27;, &#x27;C:\\temp&#x27;]
+# Notice we had to use double quotes inside the string for names with spaces in it.
+# 当要备份的文件的目录名中有空格时，要用如&#x27;&quot;C:\\program files&quot;&#x27;形式的表示方法。
+
+# 2. The backup must be stored in a main backup directory
+# 存放备份文件的目录名
+target_dir = &#x27;C:\\Backup&#x27; # Remember to change this to what you will be using
+
+# 3. The files are backed up into a rar file.
+# 4. The current day is the name of the subdirectory in the main directory
+today = target_dir + os.sep + time.strftime(&#x27;%Y%m%d&#x27;)
+# The current time is the name of the rar archive
+now = time.strftime(&#x27;%H%M%S&#x27;)
+
+# Create the subdirectory if it isn&#x27;t already there
+if not os.path.exists(today):
+    os.mkdir(today) # make directory
+    print(&#x27;Successfully created directory&#x27;, today)
+else:
+    print(&#x27;{0} directory already exists&#x27;.format(today))
+# The name of the zip file
+target = today + os.sep + now + &#x27;.rar&#x27;
+
+# 5. We use the zip command to put the files in a zip archive
+zip_command = &quot;rar a {0} {1}&quot;.format(target, &#x27; &#x27;.join(source))
+
+# Run the backup
+if os.system(zip_command) == 0:
+    print(&#x27;Successful backup to&#x27;, target)
+else:
+    print(&#x27;Backup Failed&#x27;)
+
+input(&#x27;Press Enter to continue!&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">backup_ver3.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: backup_ver3.py
+
+import os
+import time
+
+# 1. The files and directories to be backed up are specified in a list.
+source = [&#x27;C:\\tmp&#x27;, &#x27;C:\\temp&#x27;]
+# Notice we had to use double quotes inside the string for names with spaces in it.
+
+# 2. The backup must be stored in a main backup directory
+target_dir = &#x27;C:\\Backup&#x27; # Remember to change this to what you will be using
+
+# 3. The files are backed up into a zip file.
+# 4. The current day is the name of the subdirectory in the main directory
+today = target_dir + os.sep + time.strftime(&#x27;%Y%m%d&#x27;)
+# The current time is the name of the zip archive
+now = time.strftime(&#x27;%H%M%S&#x27;)
+
+# Take a comment from the user to create the name of the zip file
+comment = input(&#x27;Enter a comment --&gt; &#x27;)
+if len(comment) == 0: # check if a comment was entered
+    target = today + os.sep + now + &#x27;.rar&#x27;
+else:
+    target = today + os.sep + now + &#x27;_&#x27;+comment.replace(&#x27; &#x27;, &#x27;_&#x27;) + &#x27;.rar&#x27;
+
+# Create the subdirectory if it isn&#x27;t already there
+if not os.path.exists(today):
+    os.mkdir(today) # make directory
+    print(&#x27;Successfully created directory&#x27;, today)
+
+# 5. We use the zip command to put the files in a zip archive
+zip_command = &quot;rar a -m5 {0} {1}&quot;.format(target, &#x27; &#x27;.join(source))
+
+# Run the backup
+if os.system(zip_command) == 0:
+    print(&#x27;Successful backup to&#x27;, target)
+else:
+    print(&#x27;Backup FAILED&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">backup_ver4.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">
+import time
+import zipfile
+import os
+
+
+source = [&#x27;.\\tmp\\mylog.txt&#x27;,
+          &#x27;.\\tmp\\pic1.jpg&#x27;,
+          &#x27;.\\tmp\\pic2.jpg&#x27;,
+          &#x27;.\\tmp\\temp.txt&#x27;,
+          &#x27;.\\tmp\\song.wma&#x27;
+          ]                  #files you want to archive
+target_dir = &#x27;.\\backup&#x27;
+
+today = target_dir+os.sep+time.strftime(&#x27;%Y%m%d&#x27;)
+
+now = time.strftime(&#x27;%H%M%S&#x27;)
+
+##comment = input(&#x27;Enter a comment --&gt; &#x27;)
+##if len(comment) == 0: # check if a comment was entered
+##    target = today + os.sep + now +&#x27;.zip&#x27;
+##else:
+##    target = today + os.sep + now + &#x27;_&#x27;+ comment.replace(&#x27; &#x27;, &#x27;_&#x27;) + &#x27;.zip&#x27;
+target = today + os.sep + now +&#x27;.zip&#x27;
+
+if not os.path.exists(today):
+    os.mkdir(today) # make directory
+    print(&#x27;Successfully created directory&#x27;, today)
+
+
+for i in range(0,len(source)):
+    with zipfile.ZipFile(target,&#x27;a&#x27;) as myzip:
+        myzip.write(source[i])
+        
+print(&#x27;Successful backup to&#x27;, target)
+
+input(&#x27;Press Enter to continue!&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">my_del_backup.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">import os
+target_dir = &quot;.\\backup\\&quot;
+del_command = &quot;del /S /Q &quot;+target_dir
+if os.system(del_command)==0:
+    print(&quot;All files have been deleted in&quot;,target_dir)
+else:
+    print(&quot;Deleting files failed!&quot;)
+
+input(&quot;Press Enter to continue!&quot;)
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch11-problem-solving.ipynb">⬇ 下载本章 Jupyter 笔记本（ch11-problem-solving.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 10 章 数据结构 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 10 章 数据结构</span></div>
+<div class="chapter-head"><h1>第 10 章 数据结构</h1><span class="slug">ch10-data-structures</span></div>
+<p class="lead">列表 / 元组 / 字典 / 字符串方法 / 序列。</p>
+<p class="muted">本页共 <b>6</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">reference.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: reference.py
+
+print(&#x27;Simple Assignment&#x27;)
+shoplist = [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]
+mylist = shoplist # mylist is just another name pointing to the same object!
+
+del shoplist[0] # I purchased the first item, so I remove it from the list
+
+print(&#x27;shoplist is&#x27;, shoplist)
+print(&#x27;mylist is&#x27;, mylist)
+# notice that both shoplist and mylist both print the same list without
+# the &#x27;apple&#x27; confirming that they point to the same object
+
+print(&#x27;Copy by making a full slice&#x27;)
+mylist = shoplist[:] # make a copy by doing a full slice
+del mylist[0] # remove first item
+
+print(&#x27;shoplist is&#x27;, shoplist)
+print(&#x27;mylist is&#x27;, mylist)
+# notice that now the two lists are different
+
+input()
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">seq.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: seq.py
+
+shoplist = [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]
+name = &#x27;swaroop&#x27;
+
+# Indexing or &#x27;Subscription&#x27; operation
+print(&#x27;Item 0 is&#x27;, shoplist[0])
+print(&#x27;Item 1 is&#x27;, shoplist[1])
+print(&#x27;Item 2 is&#x27;, shoplist[2])
+print(&#x27;Item 3 is&#x27;, shoplist[3])
+print(&#x27;Item -1 is&#x27;, shoplist[-1])
+print(&#x27;Item -2 is&#x27;, shoplist[-2])
+print(&#x27;Character 0 is&#x27;, name[0])
+
+# Slicing on a list
+print(&#x27;Item 1 to 3 is&#x27;, shoplist[1:3])
+print(&#x27;Item 2 to end is&#x27;, shoplist[2:])
+print(&#x27;Item 1 to -1 is&#x27;, shoplist[1:-1])
+print(&#x27;Item start to end is&#x27;, shoplist[:])
+
+# Slicing on a string
+print(&#x27;characters 1 to 3 is&#x27;, name[1:3])
+print(&#x27;characters 2 to end is&#x27;, name[2:])
+print(&#x27;characters 1 to -1 is&#x27;, name[1:-1])
+print(&#x27;characters start to end is&#x27;, name[:])
+input()
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">str_methods.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: str_methods.py
+
+name = &#x27;Swaroop&#x27; # This is a string object
+
+if name.startswith(&#x27;Swa&#x27;):
+    print(&#x27;Yes, the string starts with &quot;Swa&quot;&#x27;)
+
+if &#x27;a&#x27; in name:
+    print(&#x27;Yes, it contains the string &quot;a&quot;&#x27;)
+
+if name.find(&#x27;war&#x27;) != -1:
+    print(&#x27;Yes, it contains the string &quot;war&quot;&#x27;)
+
+delimiter = &#x27;_*_&#x27;
+mylist = [&#x27;Brazil&#x27;, &#x27;Russia&#x27;, &#x27;India&#x27;, &#x27;China&#x27;]
+print(delimiter.join(mylist))
+
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_dict.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_dict.py
+
+# &#x27;ab&#x27; is short for &#x27;a&#x27;ddress&#x27;b&#x27;ook
+
+ab = {  &#x27;Swaroop&#x27; : &#x27;swaroop@swaroopch.com&#x27;,
+          &#x27;Larry&#x27; : &#x27;larry@wall.org&#x27;,
+      &#x27;Matsumoto&#x27; : &#x27;matz@ruby-lang.org&#x27;,
+        &#x27;Spammer&#x27; : &#x27;spammer@hotmail.com&#x27;
+     }
+
+print(&quot;Swaroop&#x27;s address is&quot;, ab[&#x27;Swaroop&#x27;])
+
+# Deleting a key-value pair
+del ab[&#x27;Spammer&#x27;]
+
+print(&#x27;\nThere are {0} contacts in the address-book\n&#x27;.format(len(ab)))
+
+for name, address in ab.items():
+    print(&#x27;Contact {0} at {1}&#x27;.format(name, address))
+
+# Adding a key-value pair
+ab[&#x27;Guido&#x27;] = &#x27;guido@python.org&#x27;
+if &#x27;Guido&#x27; in ab: # OR ab.has_key(&#x27;Guido&#x27;)
+    print(&quot;\nGuido&#x27;s address is&quot;, ab[&#x27;Guido&#x27;])
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_list.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_list.py
+
+# This is my shopping list
+shoplist = [&#x27;apple&#x27;, &#x27;mango&#x27;, &#x27;carrot&#x27;, &#x27;banana&#x27;]
+
+print(&#x27;I have&#x27;, len(shoplist), &#x27;items to purchase.&#x27;)
+
+print(&#x27;These items are:&#x27;, end=&#x27; &#x27;)
+
+for item in shoplist:
+    print(item, end=&#x27; &#x27;)
+
+print(&#x27;\nI also have to buy rice.&#x27;)
+shoplist.append(&#x27;rice&#x27;)
+print(&#x27;My shopping list is now&#x27;, shoplist)
+
+print(&#x27;I will sort my list now&#x27;)
+shoplist.sort()
+print(&#x27;Sorted shopping list is&#x27;, shoplist)
+print(&#x27;The first item I will buy is&#x27;, shoplist[0])
+olditem = shoplist[0]
+del shoplist[0]
+print(&#x27;I bought the&#x27;, olditem)
+print(&#x27;My shopping list is now&#x27;, shoplist)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_tuple.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_tuple.py
+
+zoo = (&#x27;python&#x27;, &#x27;elephant&#x27;, &#x27;penguin&#x27;) # remember the parentheses are optional
+print(&#x27;Number of animals in the zoo is&#x27;, len(zoo))
+
+new_zoo = (&#x27;monkey&#x27;, &#x27;camel&#x27;, zoo)
+print(&#x27;Number of cages in the new zoo is&#x27;, len(new_zoo))
+print(&#x27;All animals in new zoo are&#x27;, new_zoo)
+print(&#x27;Animals brought from old zoo are&#x27;, new_zoo[2])
+print(&#x27;Last animal brought from old zoo is&#x27;, new_zoo[2][2])
+print(&#x27;Number of animals in the new zoo is&#x27;,len(new_zoo)-1+len(new_zoo[2]))
+input()
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch10-data-structures.ipynb">⬇ 下载本章 Jupyter 笔记本（ch10-data-structures.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 12 章 面向对象编程 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 12 章 面向对象编程</span></div>
+<div class="chapter-head"><h1>第 12 章 面向对象编程</h1><span class="slug">ch12-oop</span></div>
+<p class="lead">类与对象 / 方法 / 继承 / 实例变量。</p>
+<p class="muted">本页共 <b>7</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">class_init.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: class_init.py
+
+class Person:
+    def __init__(self, name):
+        self.name = name
+    def sayHi(self):
+        print(&#x27;Hello, my name is&#x27;, self.name)
+
+p = Person(&#x27;Swaroop&#x27;)
+p.sayHi()
+
+# This short example can also be written as Person(&#x27;Swaroop&#x27;).sayHi()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">inherit.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: inherit.py
+
+class SchoolMember:
+    &#x27;&#x27;&#x27;Represent any school member.&#x27;&#x27;&#x27;
+    def __init__(self,name,age):
+        self.name = name
+        self.age = age
+        print(&#x27;(Initialize SchoolMember:{0})&#x27;.format(self.name))
+        
+    def tell(self):
+        &#x27;&#x27;&#x27;Tell my details.&#x27;&#x27;&#x27;
+        print(&#x27;Name:&quot;{0}&quot; Age:&quot;{1}&quot;&#x27;.format(self.name,self.age),end=&#x27;&#x27;)
+
+class Teacher(SchoolMember):
+    &#x27;&#x27;&#x27;Repressent a teacher.&#x27;&#x27;&#x27;
+    def __init__(self,name,age,salary):
+        SchoolMember.__init__(self,name,age)
+        self.salary = salary
+        print(&#x27;(Initialized Teacher:{0})&#x27;.format(self.name))
+
+    def tell(self):
+        SchoolMember.tell(self)
+        print(&#x27;Salary:&quot;{0:d}&quot;&#x27;.format(self.salary))
+
+class Student(SchoolMember):
+    &#x27;&#x27;&#x27;Represents a student&#x27;&#x27;&#x27;
+    def __init__(self,name,age,marks):
+        SchoolMember.__init__(self,name,age)
+        self.marks = marks
+        print(&#x27;(Initialized Student:{0})&#x27;.format(self.name))
+
+    def tell(self):
+        SchoolMember.tell(self)
+        print(&#x27;Marks:&quot;{0:d}&quot;&#x27;.format(self.marks))
+def main():
+    t = Teacher(&#x27;Mrs.Shrividya&#x27;,30,30000)
+    s = Student(&#x27;Swaroop&#x27;,25,75)
+
+    print() #pirnts a blank line
+
+    members = [t,s]
+    for member in members:
+        member.tell() # work for both Teacher and Students
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+else:
+    print(&quot;inherit.py was imported!&quot;)
+
+
+
+
+
+
+
+
+
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">method.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: method.py
+
+class Person:
+    def sayHi(self):
+        print(&#x27;Hello, how are you?&#x27;)
+
+p = Person()
+p.sayHi()
+# This short example can also be written as Person().sayHi()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">my_test_class.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">class coordinate:
+    def __init__(self,x=0,y=0):
+        self.x=int(x)
+        self.y=int(y)
+    def getx(self):
+        return self.x
+    def gety(self):
+        return self.y
+def main():
+    xx=coordinate()
+    print(&#x27;坐标x的初始化值是：&#x27;,xx.getx())
+    print(&#x27;坐标y的初始化值是：&#x27;,xx.gety())
+    xy=coordinate(3,6)
+    print(&#x27;更改后的x坐标是：&#x27;,xy.getx())
+    print(&#x27;更改后的y坐标是：&#x27;,xy.gety())
+    input()
+if __name__==&#x27;__main__&#x27;:
+    main()
+else:
+    print(&#x27;I was imported!&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">objvar.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: objvar.py
+
+class Robot:
+    &#x27;&#x27;&#x27;Represents a robot, with a name.&#x27;&#x27;&#x27;
+
+    #A class variable, counting the number of robots
+    population = 0
+
+    def __init__(self,name):
+        &#x27;&#x27;&#x27;Initializes the data.&#x27;&#x27;&#x27;
+        self.name = name
+        print(&#x27;(Initialize {0})&#x27;.format(self.name))
+
+        #When this person is created, the robot
+        # adds to the population
+        Robot.population += 1
+
+    def __del__(self):
+        &#x27;&#x27;&#x27;I am dying.&#x27;&#x27;&#x27;
+        print(&#x27;{0} is being destroyed!&#x27;.format(self.name))
+
+        Robot.population -= 1
+
+        if Robot.population == 0:
+            print(&#x27;{0} was the last one.&#x27;.format(self.name))
+        else:
+            print(&#x27;There are still {0:d} robots working.&#x27;.format(Robot.population))
+
+    def sayHi(self):
+        &#x27;&#x27;&#x27;Greeting by the robot.
+
+        Yeah, they can do that.&#x27;&#x27;&#x27;
+        print(&#x27;Greetings, my master call me {0}.&#x27;.format(self.name))
+        
+    def howMany():
+        &#x27;&#x27;&#x27;Prints the current population.&#x27;&#x27;&#x27;
+        print(&#x27;We have {0:d} robots.&#x27;.format(Robot.population))
+    howMany = staticmethod(howMany)
+
+def main():
+    droid1 = Robot(&#x27;R2-D2&#x27;)
+    droid1.sayHi()
+    Robot.howMany()
+
+    droid2 = Robot(&#x27;C-3P0&#x27;)
+    droid2.sayHi()
+    Robot.howMany()
+
+    print(&quot;\nRobots can do some work here.\n&quot;)
+
+    print(&quot;Robots have finished their work. So let&#x27;s destroy them.&quot;)
+
+    del droid1
+    del droid2
+
+    Robot.howMany()
+
+if __name__ == &#x27;__main__&#x27;:
+    main()
+else:
+    print(&quot;objvar.py was imported!&quot;)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">simplestclass.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: simplestclass.py
+
+class Person:
+    pass # An empty block
+
+p = Person()
+print(p)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">test.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">import objvar
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch12-oop.ipynb">⬇ 下载本章 Jupyter 笔记本（ch12-oop.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>通讯录示例 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>综合示例：通讯录</span></div>
+<h1>综合示例：通讯录程序</h1>
+<p class="lead">基于 pickle 的完整联系人管理小程序，支持增、删、改、查。对应源码 examples/address-book/contacts.py。</p>
+<p class="muted">源码文件：<code>examples/address-book/contacts.py</code>（基于 <code>pickle</code> 持久化，运行时产生 <code>contactsfile.data</code>，已被 .gitignore 排除）。</p>
+
+<h2 style="margin-top:24px">源码</h2>
+<div class="code-card"><div class="code-head"><span class="fname">contacts.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">﻿#!/usr/bin/python
+#encoding:utf-8
+&#x27;&#x27;&#x27;
+联系人程序
+用于增加，删除，修改，查找联系人
+&#x27;&#x27;&#x27;
+import pickle
+# the name of the file where we will store the object
+
+class contacts:
+	&#x27;&#x27;&#x27;
+	类：联系人
+	&#x27;&#x27;&#x27;
+	def __init__(self,name):
+		self.name = name
+		self.info = None
+			
+	def add(self,address_book):
+		self.info = input(&#x27;请输入联系人的电话号码：\n&#x27;)
+		self.info = self.info.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+		address_book[self.name] = self.info
+
+	def delete(self,address_book):
+		del_info = address_book[self.name]
+		del address_book[self.name]
+		print(&#x27;联系人：&#x27;,self.name,&#x27;{&#x27;,del_info,&#x27;}  已被删除！&#x27;)
+	def search(self,address_book):
+		if self.name in address_book.keys():
+				print(&#x27;联系人查找成功！&#x27;)
+				print(&#x27;姓名：&#x27;,self.name,&#x27;移动号码：&#x27;,address_book[self.name])
+		else:
+				print(&#x27;没有此联系人！&#x27;)
+	def modify(self,address_book):
+		if self.name in address_book.keys():
+				address_book[self.name] = input(&#x27;请输入联系人的电话号码：\n&#x27;)
+				address_book[self.name] = address_book[self.name].replace(&#x27;\r&#x27;,&#x27;&#x27;)
+				print(&#x27;修改成功！&#x27;)
+		else:
+				print(self.name,&#x27;联系人不存在，无法修改！&#x27;)
+	@staticmethod
+	def printall(address_book):
+		print(&#x27;\nName\t Mobile\n&#x27;)
+		for key in address_book.keys():
+				print(key,&#x27;\t&#x27;,address_book[key])
+		print()
+	@staticmethod
+	def printitem(name,address_book):
+		print(name,address_book[name])
+
+try:					
+	print(&#x27;Welcome to the contacts program!&#x27;)
+
+	#打开地址薄（如果不存在则创建）
+	contactsfile = &#x27;contactsfile.data&#x27;
+	try:
+		f = open(contactsfile,&#x27;rb&#x27;)
+		address_book = pickle.load(f)
+		f.close()
+	except:
+		f = open(contactsfile,&#x27;wb&#x27;)
+		address_book = {}
+	flag = True
+##	while flag:
+##		password = input(&#x27;请输入密码：&#x27;)
+##		if password.replace(&#x27;\r&#x27;,&#x27;&#x27;) == &#x27;smile&#x27;:
+##			break
+##		print(&#x27;密码错误！&#x27;)
+##		continue
+
+	#对地址薄进行处理	
+	flag = True
+	while flag:
+		flag = (input(&quot;\n1:add\t2:delete\t3:search\t4:modify\t5:display\t0:quit\n--&gt;&quot;))
+		flag = flag.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+		if flag == &#x27;0&#x27;:
+			break
+		
+		elif flag == &#x27;1&#x27;:
+			name = input(&#x27;请输入要添加的联系人的姓名：\n&#x27;)
+			name = name.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+			while name  in address_book.keys():
+					print(&#x27;该联系人已经存在！&#x27;)
+					name = input(&#x27;请重新输入要添加的联系人的姓名：\n&#x27;)
+					name = name.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+			contact = contacts(name)
+			contact.add(address_book)
+		
+		elif flag == &#x27;2&#x27;:
+			name = input(&#x27;请输入要删除的联系人的姓名：\n&#x27;)
+			name = name.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+			if name not in address_book.keys():
+				print(&#x27;该联系人不存在&#x27;)
+				continue
+			contact = contacts(name)
+			contact.delete(address_book)
+				
+		elif flag == &#x27;3&#x27;:
+			name = input(&#x27;请输入要查找的联系人的姓名：\n&#x27;)
+			name = name.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+			contact = contacts(name)
+			contact.search(address_book)
+				
+		elif flag == &#x27;4&#x27;:
+			name = input(&#x27;请输入要修改的联系人的姓名：\n&#x27;)
+			name = name.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+			contact = contacts(name)
+			contact.modify(address_book)
+				
+		elif flag == &#x27;5&#x27;:
+			contacts.printall(address_book)
+				
+		else:
+			print(&quot;你到底想干嘛？请对应下面的序号重新输入&quot;)
+
+	f = open(contactsfile,&#x27;wb&#x27;)
+	pickle.dump(address_book,f)
+finally:
+	f.close()
+
+
+
+
+
+
+</code></pre></div>
+
+<h2 style="margin-top:24px">可交互仿真</h2>
+<p class="sub">下方为前端仿真，完全使用模拟数据，不执行 Python。</p>
+
+<div class="sim">
+  <div class="note">📇 通讯录仿真：完全用 JavaScript 模拟，仅使用<b>模拟数据</b>，不执行 Python、不读写任何真实文件（对应源码见 examples/address-book/contacts.py）。</div>
+  <div class="row">
+    <input id="cName" placeholder="联系人姓名（如 张三）" />
+    <input id="cPhone" placeholder="电话号码（如 13800000000）" />
+    <button onclick="simAdd()">添加</button>
+    <button class="alt" onclick="simSearch()">查找</button>
+    <button class="alt" onclick="simDel()">删除</button>
+    <button class="alt" onclick="simDisplay()">显示全部</button>
+  </div>
+  <div class="out" id="simOut">> 已预置 3 条模拟数据，点击「显示全部」开始。\n> 对应源码：examples/address-book/contacts.py</div>
+</div>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

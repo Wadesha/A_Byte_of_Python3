@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 16 章 更多内容 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 16 章 更多内容</span></div>
+<div class="chapter-head"><h1>第 16 章 更多内容</h1><span class="slug">ch16-more</span></div>
+<p class="lead">lambda 表达式 / 列表推导式。</p>
+<p class="muted">本页共 <b>2</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">lamba.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: lambda.py
+
+def make_repeater(n):
+	return lambda s: s*n
+
+twice = make_repeater(2)
+
+print(twice(&#x27;word&#x27;))
+print(twice(5))</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">list_comprehension.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: list_comprehension.py
+
+listone = [2,3,4]
+listtwo = [2*i for i in listone if i &gt; 2]
+print(listtwo)</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch16-more.ipynb">⬇ 下载本章 Jupyter 笔记本（ch16-more.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

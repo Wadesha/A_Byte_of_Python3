@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 13 章 输入输出 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 13 章 输入输出</span></div>
+<div class="chapter-head"><h1>第 13 章 输入输出</h1><span class="slug">ch13-io</span></div>
+<p class="lead">文件读写 / pickle 序列化 / 用户输入。</p>
+<p class="muted">本页共 <b>4</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">pickling.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: pickling.py
+
+import pickle
+
+# the name of the file where we will store the object
+shoplistfile = &#x27;shoplist.data&#x27;
+# the list of things to buy
+shoplist = [&#x27;apple&#x27;,&#x27;mango&#x27;,&#x27;carrot&#x27;]
+shoplist1= [&#x27;name&#x27;,&#x27;age&#x27;,&#x27;sex&#x27;]
+
+# Write to the file
+f = open(shoplistfile,&#x27;wb&#x27;)
+pickle.dump(shoplist, f) #dump the object to a file
+pickle.dump(shoplist1,f)
+f.close()
+
+del shoplist # detroy the shoplist variable
+del shoplist1
+
+# Read back from the storage
+with open(shoplistfile,&#x27;rb&#x27;) as f:
+	while True:
+		try:
+			storedlist  = pickle.load(f) # load the object from the file
+		except EOFError:
+			break
+		print(storedlist)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">plural2.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">&quot;&quot;&quot;Pluralize English nouns (stage 2)
+
+This program is part of &quot;Dive Into Python&quot;, a free Python book for
+experienced programmers.  Visit http://diveintopython.org/ for the
+latest version.
+
+Command line usage:
+$ python plural2.py noun
+nouns
+&quot;&quot;&quot;
+
+__author__ = &quot;Mark Pilgrim (mark@diveintopython.org)&quot;
+__version__ = &quot;$Revision: 1.4 $&quot;
+__date__ = &quot;$Date: 2004/03/18 18:55:45 $&quot;
+__copyright__ = &quot;Copyright (c) 2004 Mark Pilgrim&quot;
+__license__ = &quot;Python&quot;
+
+import re
+
+def match_sxz(noun):
+    return re.search(&#x27;[sxz]$&#x27;, noun)
+
+def apply_sxz(noun):
+    return re.sub(&#x27;$&#x27;, &#x27;es&#x27;, noun)
+
+def match_h(noun):
+    return re.search(&#x27;[^aeioudgkprt]h$&#x27;, noun)
+
+def apply_h(noun):
+    return re.sub(&#x27;$&#x27;, &#x27;es&#x27;, noun)
+
+def match_y(noun):
+    return re.search(&#x27;[^aeiou]y$&#x27;, noun)
+        
+def apply_y(noun):
+    return re.sub(&#x27;y$&#x27;, &#x27;ies&#x27;, noun)
+
+def match_default(moun):
+    return 1
+
+def apply_default(noun):
+    return noun + &#x27;s&#x27;
+
+rules = ((match_sxz, apply_sxz),
+         (match_h, apply_h),
+         (match_y, apply_y),
+         (match_default, apply_default)
+         )
+
+def plural(noun):
+    for matchesRule, applyRule in rules:
+        if matchesRule(noun):
+            return applyRule(noun)
+
+if __name__ == &#x27;__main__&#x27;:
+    import sys
+    if sys.argv[1:]:
+        print plural(sys.argv[1])
+    else:
+        print __doc__
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">user_input.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# user_input.py
+import string
+
+def reverse(text):
+    return text[::-1]
+
+def is_palindrome(text):
+    
+    text = text.lower()
+    text = text.replace(&#x27; &#x27;,&#x27;&#x27;)
+    for char in string.punctuation:
+        text = text.replace(char,&#x27;&#x27;)
+    return text == reverse(text)
+
+def main(): 
+    something = input(&#x27;Enter text:&#x27;)
+    if (is_palindrome(something)):
+        print(&quot;Yes, {0} is a palindrome&quot;.format(something))
+    else:
+        print(&quot;No,{0} is not a palindrome&quot;.format(something))
+if __name__ == &#x27;__main__&#x27;:
+    main()
+else:
+	print(&quot;user_input.py was imported!&quot;) 
+
+	
+
+
+
+
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_file.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_file.py
+
+poem = &#x27;&#x27;&#x27;\
+Programming is fun
+When the work is done
+if you wanna make your work also fun:
+    use Python!
+&#x27;&#x27;&#x27;
+
+f = open(&#x27;poem.txt&#x27;, &#x27;w&#x27;) # open for &#x27;w&#x27;riting
+f.write(poem) # write text to file
+f.close() # close the file
+
+f = open(&#x27;poem.txt&#x27;) # if no mode is specified, &#x27;r&#x27;ead mode is assumed by default
+while True:
+    line = f.readline()
+    if len(line) == 0: # Zero length indicates EOF
+        break
+    print(line, end=&#x27;&#x27;)
+f.close() # close the file
+
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch13-io.ipynb">⬇ 下载本章 Jupyter 笔记本（ch13-io.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

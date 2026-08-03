@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 1–7 章 基础 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 1–7 章 基础</span></div>
+<div class="chapter-head"><h1>第 1–7 章 基础</h1><span class="slug">ch01-07-basics</span></div>
+<p class="lead">安装 / Hello World / 变量 / 运算符 / 控制流（if·while·break·continue）/ 字符串格式化 / 文件读写入门。</p>
+<p class="muted">本页共 <b>10</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">break11.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: break.py
+
+while True:
+    s = input(&#x27;Enter something(Enter quit to exit):&#x27;)
+    s = s.replace(&#x27;\r&#x27;,&#x27;&#x27;)
+    if s == &#x27;quit&#x27;:
+        break
+    print(&#x27;Length of the string is&#x27;,len(s))
+print(&#x27;Done&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">continue.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: continue.py
+
+while True:
+    s = input(&#x27;Enter something : &#x27;)
+    if s == &#x27;quit&#x27;:
+        break
+    if len(s) &lt; 3:
+        print(&#x27;Too small&#x27;)
+        continue
+    print(&#x27;Input is of sufficient length&#x27;)
+    # Do other kinds of processing here...
+    print(&#x27;Output something!&#x27;)
+	</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">gui.pyw</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># File: hello2.py
+from tkinter import *
+class App:
+    def __init__(self, master):
+        frame = Frame(master)
+        frame.pack()
+        self.button = Button (  frame, # master widget
+                                text=&quot;QUIT&quot;,
+                                fg=&quot;red&quot;,
+                                command=frame.quit
+                              )
+        self.button.pack(side=LEFT)
+        self.hi_there = Button( frame,
+                                text=&quot;Hello&quot;,
+                                command=self.say_hi
+                               )
+        self.hi_there.pack(side=LEFT)
+    def say_hi(self):
+        print(&quot;hi there, everyone!&quot;)
+root = Tk()
+app = App(root)
+root.mainloop()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">helloworld.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+#Filename: helloworld.py
+
+print(&#x27;Hello World&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">if.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: if.py
+
+number = 23
+guess = int(input(&#x27;Enter an integer : &#x27;))     # convert strings to a integer
+
+if guess == number:
+    print(&#x27;Congratulations, you guessed it.&#x27;) # New block starts here
+    print(&#x27;(but you do not win any prizes!)&#x27;) # New block ends here
+elif guess &lt; number:
+    print(&#x27;No, it is a little higher than that&#x27;) # Another block
+    # You can do whatever you want in a block ...
+else:
+    print(&#x27;No, it is a little lower than that&#x27;)
+    # you must have guess &gt; number to reach here
+print(&#x27;Done&#x27;)
+# This last statement is always executed, after the if statement is executed
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">makeTextFile.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#window
+
+&#x27;makeTextFile.py -- create text file&#x27;
+
+import os
+ls = os.linesep
+
+#get filename
+fname = raw_input(&#x27;Enter file road:&#x27;)
+while True:
+    if os.path.exists(fname):
+        print &quot;Error: %s&#x27; already exits&quot; % (fname)
+        fname = raw_input()
+    else:
+        break
+        
+#get file content (text) lines
+all = []
+print &quot;\nEnter lines(&#x27;.&#x27; by itself to quit).\n&quot;
+
+#loop until user terminates input
+while True:
+    entry = raw_input(&#x27;&gt;&#x27;)
+    if entry ==&#x27;.&#x27;:
+        break
+    else:
+        all.append(entry)
+        
+#write lines to file with proper line-ending
+fobj = open(fname,&#x27;w&#x27;)
+fobj.writelines([&#x27;%s%s&#x27; %(x,ls) for x in all])
+fobj.close()
+print &#x27;done!\nPress Enter to continue!&#x27;
+raw_input()
+
+    
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">readTextFile.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#windows
+
+&#x27;readTextFile.py -- read and display text file&#x27;
+
+#get filename
+fname = raw_input(&quot;Enter filename:&quot;)
+print
+
+#attempt to open file for reading
+try:
+    fobj = open(fname,&#x27;r&#x27;)
+except IOError, e:
+    print &quot;*** file open error:&quot;, e
+#display contents to the screen
+for eachLine in fobj:
+    print eachLine,
+fobj.close()
+print
+raw_input(&quot;Press Enter to Continue !&quot;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">str_format.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: str_format.py
+age = 25
+name = &#x27;Swaroop&#x27;
+print(&#x27;{0} is {1} years old&#x27;.format(name, age))
+print(&#x27;Why is {0} playing with that python?&#x27;.format(name))
+raw_input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">while.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># !/usr/bin/python
+# Filename while.py
+
+number=23
+running=True
+
+while running:
+  guess=int(input(&quot;Enter an integer:&quot;))
+  if guess==number:
+        print(&quot;Congratulation, you guessd it.&quot;)
+        running=False #this causes the while loop to stop
+  elif guess&lt;number:
+        print(&quot;No, it is a little higher&quot;)
+  else:
+        print(&quot;No, it is a little lower&quot;)
+else:
+  print(&quot;the while is over.&quot;)
+print(&quot;Done!&quot;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">whitespace.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">i = 5
+ print(&#x27;Value is &#x27;, i) # Error! Notice a single space at the start of the line
+print(&#x27;I repeat, the value is &#x27;, i)
+
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch01-07-basics.ipynb">⬇ 下载本章 Jupyter 笔记本（ch01-07-basics.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

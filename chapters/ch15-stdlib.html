@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 15 章 标准库 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 15 章 标准库</span></div>
+<div class="chapter-head"><h1>第 15 章 标准库</h1><span class="slug">ch15-stdlib</span></div>
+<p class="lead">logging / 版本检查 / Yahoo 搜索（旧 API，可能已失效，仅供学习）。</p>
+<p class="muted">本页共 <b>3</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">use_logging.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: use_logging.py
+
+import os, platform, logging
+
+if platform.platform().startswith(&#x27;Windows&#x27;):
+	logging_file = os.path.join(os.getenv(&#x27;HOMEDRIVE&#x27;),
+							&#x27;test.log&#x27;)
+else:
+	logging_file = os.path.join(os.getenv(&#x27;HOME&#x27;),&#x27;test.log&#x27;)
+
+logging.basicConfig(
+				level = logging.DEBUG,
+				format = &#x27;%(asctime)s : %(levelname)s : %(message)s&#x27;,
+				filename = logging_file,
+				filemode = &#x27;w&#x27;,
+				)
+
+logging.debug(&quot;Start of the program&quot;)
+logging.info(&quot;Doing something&quot;)
+logging.warning(&quot;Dying now&quot;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">versioncheck.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: versioncheck.py
+
+import sys, warnings
+
+if sys.version_info[0] &lt; 3:
+	warnings.warn(&quot;Need Python 3.0 for this program to run&quot;,RuntimeWarning)
+else:
+	print(&#x27;Proceed as normal&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">yahoo_search.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: yahoo_search.py
+
+import sys
+
+if sys.version_info[0] != 3:
+	sys.exit(&#x27;This program needs Python 3.0&#x27;)
+
+import json
+import urllib, urllib.parse, urllib.request, urllib.response
+
+#Get your own APP ID at http://developer.yahoo.com/wsregapp/
+YAHOO_APP_ID = &#x27;jl22psvV34HELWhdfUJbfDQzlJ2B57KFS_qs4I8D0Wz5U5_yCI1Awv8.lBSfPhwr&#x27;
+SEARCH_BASE = &#x27;http://search.yahooapis.com/WebSearchService/V1/webSearch&#x27;
+
+class YahooSearchError(Exception):
+	pass
+
+# Taken from http://developer.yahoo.com/python/python-json.html
+def search(query, results=20, start=1,**kwargs):
+	kwargs.update({
+				&#x27;appid&#x27;:YAHOO_APP_ID,
+				&#x27;query&#x27;:query,
+				&#x27;results&#x27;:results,
+				&#x27;start&#x27;:start,
+				&#x27;output&#x27;:&#x27;json&#x27;,
+				})
+	url = SEARCH_BASE + &#x27;?&#x27; + urllib.parse.urlencode(kwargs)
+	result = json.load(urllib.request.urlopen(url))
+	if &#x27;Error&#x27; in result:
+		raise YahooSearchError(result[&#x27;Error&#x27;])
+	return result[&#x27;ResultSet&#x27;]
+
+query = input(&#x27;What do you want to search for?&#x27;)	
+for result in search(query)[&#x27;Result&#x27;]:
+	print(&quot;{0}:{1}&quot;.format(result[&#x27;Title&#x27;], result[&#x27;Url&#x27;]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch15-stdlib.ipynb">⬇ 下载本章 Jupyter 笔记本（ch15-stdlib.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

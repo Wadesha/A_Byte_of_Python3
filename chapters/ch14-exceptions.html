@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 14 章 异常 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 14 章 异常</span></div>
+<div class="chapter-head"><h1>第 14 章 异常</h1><span class="slug">ch14-exceptions</span></div>
+<p class="lead">try/except / raise / finally / with 语句。</p>
+<p class="muted">本页共 <b>4</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">finall.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: finally.py
+
+import time
+
+try:
+	f = open(&#x27;poem.txt&#x27;)
+	while True:	# our usual file-reading idiom
+		line = f.readline()
+		if len(line) == 0:
+			break
+		print(line, end = &#x27;&#x27;)
+		time.sleep(2) # To make sure it runs for a while
+except KeyboardInterrupt:
+	print(&#x27;!! You cancelled the reading from the file.&#x27;)
+finally:
+	f.close()
+	print(&#x27;(Cleanig up: closed the file)&#x27;)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">raising.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+#filename: raising.py
+
+class ShortInputException(Exception):
+	&#x27;&#x27;&#x27;A user-defined exception class&#x27;&#x27;&#x27;
+	def __init__(self, length,atleast):
+		Exception.__init__(self)
+		self.length = length
+		self.atleast = atleast
+		
+try:
+	text = input(&#x27;Enter something--&gt;&#x27;)
+	if len(text) &lt; 3:
+		raise ShortInputException(len(text),3)
+	#other work can continue as usual here
+except EOFError:
+	print(&#x27;Why did you do an EOF on me&#x27;)
+except ShortInputException as ex:
+	print(&#x27;ShortInputException The input was {0} long, excepted \
+	atleast {1}&#x27;.format(ex.length, ex.atleast))
+else:
+	print(&#x27;No exception was raised.&#x27;)
+	</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">try_catch.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding:UTF-8 --*-
+
+#!/usr/bin/python
+# Filename: try_except.py
+
+try:
+	text = input(&#x27;Enter something --&gt; &#x27;)
+except EOFError:
+	print(&#x27;Why did you do an EOF on me?&#x27;)
+except KeyboardInterrupt:
+	print(&#x27;You cancelled the operation.&#x27;)
+else:
+	print(&#x27;You entered {0} 哈哈&#x27;.format(text))
+	</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_with.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python"># -*-- coding: UTF-8 --*-
+#!/usr/bin/python
+# Filename: using_with.py
+
+with open(&quot;poem.txt&quot;) as f:
+	for line in f:
+		print(line,end=&#x27;&#x27;)
+	
+	
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch14-exceptions.ipynb">⬇ 下载本章 Jupyter 笔记本（ch14-exceptions.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

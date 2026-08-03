@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 8 章 函数 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 8 章 函数</span></div>
+<div class="chapter-head"><h1>第 8 章 函数</h1><span class="slug">ch08-functions</span></div>
+<p class="lead">形参与实参 / 默认参数 / 关键字参数 / 可变参数 / 局部·全局·nonlocal / 返回值。</p>
+<p class="muted">本页共 <b>12</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">func_default.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: func_default.py
+
+def say(message, times = 1):
+    print(message * times)
+
+say(&#x27;Hello&#x27;)
+say(&#x27;World&#x27;, 5)
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_doc.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: func_doc.py
+def printMax(x, y):
+    &#x27;&#x27;&#x27;Prints the maximum of two numbers.
+    
+    The two values must be integers.&#x27;&#x27;&#x27;
+    x = int(x) # convert to integers, if possible
+    y = int(y)
+    
+    if x &gt; y:
+        print(x, &#x27;is maximum&#x27;)
+    else:
+        print(y, &#x27;is maximum&#x27;)
+
+printMax(3, 5)
+help(printMax)
+print(printMax.__doc__)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_global.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+#Filename: func_global.py
+
+x = 50
+
+def func():
+    global x
+
+    print(&#x27;x is&#x27;,x)
+    x = 2
+    print(&#x27;Changed global x to&#x27;,x)
+
+func()
+print(&#x27;Value of x is&#x27;,x)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_key.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: func_key.py
+
+def func(a, b=5, c=10):
+    print(&#x27;a is&#x27;, a, &#x27;and b is&#x27;, b, &#x27;and c is&#x27;, c)
+
+func(3, 7)
+func(25, c=24)
+func(c=50, a=100)
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_local.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: func_local.py
+x = 50
+def func(x):
+    print(&#x27;x is&#x27;, x)
+    x = x + 1
+    print(&#x27;Changed local x to&#x27;, x)
+func(x)
+print(&#x27;x is still&#x27;, x)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_nonlocal.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: func_nonlocal.py
+
+def func_outer():
+    x = 2
+    print(&#x27;x is&#x27;,x)
+
+    def func_inner():
+        nonlocal x
+        x = 5
+
+    func_inner()
+    print(&#x27;Changed local x to&#x27;,x)
+
+func_outer()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_param.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">def printMax(a,b):
+    if a &gt; b:
+        print(a, &#x27;is maximum&#x27;)
+    elif a == b:
+        print(a, &#x27;is equal to&#x27;,b)
+    else:
+        print(b, &#x27;is maximum&#x27;)
+
+
+printMax(3,4) # directly give literal valuse
+
+x = 5
+y = 7
+
+printMax(x,y) # give variables as arguments
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_pass.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">def someFunction():
+    
+    
+    pass
+    
+print(someFunction())</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">func_return.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">def maximum(x, y):
+    if x &gt; y:
+        return x
+    else:
+        return y    
+
+print(maximum(2, 3))
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">function1.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">def sayHello():
+    print(&#x27;Hello World!&#x27;)
+sayHello()
+sayHello()
+s = raw_input()
+print (s)
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">keyword_only.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: keyword_only.py
+
+def total(initial=5, *numbers, vegetables):
+    count = initial
+    for number in numbers:
+        count += number
+    count += vegetables
+    return count
+
+print(total(10, 1, 2, 3, vegetables=50))
+print(total(10, 1, 2, 3,))
+# Raises error because we have not supplied a default argument value for &#x27;vegetables&#x27;
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">total.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: total.py
+
+def total(initial=5, *numbers, **keywords):
+    count = initial
+    for number in numbers:
+        count += number
+    for key in keywords:
+        count += keywords[key]
+    return count
+
+print(total(10, 1, 2, 3, vegetables=50, fruits=100))
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch08-functions.ipynb">⬇ 下载本章 Jupyter 笔记本（ch08-functions.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>第 9 章 模块 · A Byte of Python3</title>
+<link rel="stylesheet" href="../assets/style.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+</head>
+<body>
+<header class="nav"><div class="wrap nav-inner">
+  <a class="brand" href="../index.html">A Byte of <span>Python3</span></a>
+  <nav>
+    <a href="../index.html">首页</a>
+    <a href="../chapters/ch01-07-basics.html">章节</a>
+    <a href="../examples/address-book.html">示例</a>
+    <a href="https://github.com/Wadesha/A_Byte_of_Python3">仓库</a>
+    <button class="ghost" onclick="toggleTheme()" title="切换主题">🌓</button>
+  </nav>
+</div></header>
+<main class="wrap">
+
+<div class="breadcrumb"><a href="../index.html">首页</a> / <span>第 9 章 模块</span></div>
+<div class="chapter-head"><h1>第 9 章 模块</h1><span class="slug">ch09-modules</span></div>
+<p class="lead">自定义模块 / import 机制 / __name__ / sys 模块。</p>
+<p class="muted">本页共 <b>5</b> 个示例文件（完整源码如下）。</p>
+<div class="filelist"><div class="code-card"><div class="code-head"><span class="fname">mymodule.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: mymodule.py
+
+def sayhi():
+    print(&#x27;Hi, this is mymodule speaking.&#x27;)
+
+__version__ = &#x27;0.1&#x27;
+# End of mymodule.py
+
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">mymodule_demo.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: mymodule_demo.py
+
+import mymodule
+mymodule.sayhi()
+print (&#x27;Version&#x27;, mymodule.__version__)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">mymodule_demo2.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: mymodule_demo2.py
+
+from mymodule import sayhi, __version__
+
+sayhi()
+print(&#x27;Version&#x27;, __version__)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_name.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_name.py
+
+if __name__ == &#x27;__main__&#x27;:
+    print(&#x27;This program is being run by itself&#x27;)
+else:
+    print(&#x27;I am being imported from another module&#x27;)
+input()
+</code></pre></div><div class="code-card"><div class="code-head"><span class="fname">using_sys.py</span><button class="copy" onclick="copyCode(this)">复制</button></div><pre><code class="language-python">#!/usr/bin/python
+# Filename: using_sys.py
+
+import sys
+
+print(&#x27;The command line arguments are:&#x27;)
+for i in sys.argv:
+    print(i)
+
+print(&#x27;\n\nThe PYTHONPATH is&#x27;, sys.path, &#x27;\n&#x27;)
+
+</code></pre></div></div>
+<p class="muted" style="margin-top:10px"><a href="ch09-modules.ipynb">⬇ 下载本章 Jupyter 笔记本（ch09-modules.ipynb）</a></p>
+
+</main>
+<footer><div class="wrap">
+  <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · CC BY-SA 4.0</p>
+  <p class="muted">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+</div></footer>
+<script src="../assets/app.js"></script>
+</body></html>
