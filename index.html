@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>A Byte of Python3 · 中文版示例代码库</title>
+<style>
+  :root{
+    --bg:#0d1117; --bg2:#161b22; --bg3:#1c2230; --border:#30363d;
+    --text:#e6edf3; --muted:#8b949e; --accent:#58a6ff; --accent2:#3fb950;
+    --warn:#d29922; --code:#0b0f14; --chip:#21262d;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,"Helvetica Neue","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;}
+  a{color:var(--accent);text-decoration:none}
+  a:hover{text-decoration:underline}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+  header.nav{position:sticky;top:0;z-index:20;background:rgba(13,17,23,.85);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border)}
+  .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:56px}
+  .brand{font-weight:700;font-size:16px}
+  .brand span{color:var(--accent)}
+  .nav nav a{margin-left:18px;color:var(--muted);font-size:14px}
+  .nav nav a:hover{color:var(--text)}
+  .hero{padding:60px 0 40px;text-align:center;
+    background:radial-gradient(1200px 400px at 50% -10%,rgba(88,166,255,.15),transparent)}
+  .hero h1{font-size:34px;margin-bottom:12px}
+  .hero p{color:var(--muted);max-width:640px;margin:0 auto 22px}
+  .badges{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+  .badge{background:var(--chip);border:1px solid var(--border);border-radius:999px;padding:6px 14px;font-size:13px;color:var(--muted)}
+  .badge b{color:var(--text)}
+  .btn{display:inline-block;background:var(--accent);color:#06121f;font-weight:600;padding:10px 20px;border-radius:8px;margin:6px}
+  .btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+  section{padding:44px 0;border-top:1px solid var(--border)}
+  h2{font-size:24px;margin-bottom:8px}
+  h2 .em{color:var(--accent)}
+  .sub{color:var(--muted);margin-bottom:24px}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .stat{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;text-align:center}
+  .stat .n{font-size:30px;font-weight:700;color:var(--accent)}
+  .stat .l{color:var(--muted);font-size:13px;margin-top:4px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px;transition:.2s}
+  .card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .card h3{font-size:16px;margin-bottom:4px}
+  .card .slug{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent2);font-size:12px}
+  .card p{color:var(--muted);font-size:13px;margin:8px 0}
+  .card .cnt{font-size:12px;color:var(--muted);border-top:1px dashed var(--border);padding-top:8px;margin-top:8px}
+  .codebox{background:var(--code);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;padding:10px;background:var(--bg3);border-bottom:1px solid var(--border)}
+  .tab{background:var(--chip);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:6px;
+    cursor:pointer;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+  .tab.active{background:var(--accent);color:#06121f;border-color:var(--accent);font-weight:600}
+  pre{margin:0;padding:18px;overflow:auto;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;line-height:1.55}
+  .tag{display:inline-block;font-size:11px;color:var(--warn);border:1px solid var(--warn);
+    border-radius:4px;padding:1px 6px;margin-left:8px;vertical-align:middle}
+  .sim{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px}
+  .sim .note{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .sim .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+  .sim input{background:var(--code);border:1px solid var(--border);color:var(--text);padding:8px 10px;border-radius:6px;flex:1;min-width:140px}
+  .sim button{background:var(--accent);color:#06121f;border:none;padding:8px 14px;border-radius:6px;cursor:pointer;font-weight:600}
+  .sim button.alt{background:var(--chip);color:var(--text);border:1px solid var(--border)}
+  .out{background:var(--code);border:1px solid var(--border);border-radius:8px;padding:14px;min-height:120px;
+    font-family:ui-monospace,Menlo,monospace;font-size:13px;white-space:pre-wrap}
+  table{width:100%;border-collapse:collapse;margin-top:10px}
+  th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;font-size:13px}
+  th{background:var(--bg3);color:var(--muted)}
+  footer{padding:40px 0;text-align:center;color:var(--muted);font-size:13px;border-top:1px solid var(--border)}
+  @media(max-width:720px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <div class="brand">A Byte of <span>Python3</span></div>
+    <nav>
+      <a href="#chapters">章节</a>
+      <a href="#code">代码</a>
+      <a href="#sim">模拟运行</a>
+      <a href="https://github.com/wadesha/A_Byte_of_Python3">仓库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>《简明 Python 教程》中文版 · 示例代码库</h1>
+    <p>整理自 Swaroop C H 的《A Byte of Python》。这里汇集每一章的可运行示例、交互式 Notebook，以及一个综合通讯录小程序。</p>
+    <div class="badges">
+      <span class="badge"><b>59</b> 个示例代码</span>
+      <span class="badge"><b>11</b> 个 Notebook</span>
+      <span class="badge"><b>10</b> 章 + <b>1</b> 综合示例</span>
+      <span class="badge">许可 <b>CC BY-SA 4.0</b></span>
+    </div>
+    <div style="margin-top:22px">
+      <a class="btn" href="https://github.com/wadesha/A_Byte_of_Python3">查看 GitHub 仓库</a>
+      <a class="btn ghost" href="#sim">▶ 看模拟运行</a>
+    </div>
+  </div>
+</div>
+
+<section id="chapters">
+  <div class="wrap">
+    <h2>章节 <span class="em">导航</span></h2>
+    <p class="sub">点击卡片查看该章主题。下方"代码"区可浏览真实片段，"模拟运行"区可交互体验综合示例。</p>
+    <div class="grid" id="chapterGrid"></div>
+  </div>
+</section>
+
+<section id="code">
+  <div class="wrap">
+    <h2>真实 <span class="em">代码片段</span></h2>
+    <p class="sub">为兼顾性能与篇幅，此处仅展示<b>部分代表性示例</b>（完整代码请克隆仓库）。含 <code>while True:</code> 或 <code>input()</code> 的示例已标注运行警告。</p>
+    <div class="codebox">
+      <div class="tabs" id="codeTabs"></div>
+      <pre id="codeView"></pre>
+    </div>
+  </div>
+</section>
+
+<section id="sim">
+  <div class="wrap">
+    <h2>模拟 <span class="em">运行演示</span></h2>
+    <p class="sub">下方是通讯录程序的<b>前端仿真</b>：完全用 JavaScript 模拟，仅使用<b>模拟数据</b>，不执行 Python、不读写任何真实文件。</p>
+    <div class="sim">
+      <div class="note">📇 模拟通讯录（数据仅存在于本页面内存，刷新即重置）</div>
+      <div class="row">
+        <input id="cName" placeholder="联系人姓名（如 张三）" />
+        <input id="cPhone" placeholder="电话号码（如 13800000000）" />
+        <button onclick="addContact()">添加</button>
+        <button class="alt" onclick="searchContact()">查找</button>
+        <button class="alt" onclick="delContact()">删除</button>
+        <button class="alt" onclick="displayAll()">显示全部</button>
+      </div>
+      <div class="out" id="simOut">> 已预置 3 条模拟数据，点击「显示全部」开始。\n> 对应源码：examples/address-book/contacts.py</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>示例代码改编自 《A Byte of Python》© Swaroop C H · 本仓库整理 © 2026 Wade · 基于 CC BY-SA 4.0 发布</p>
+    <p style="margin-top:6px">展示页仅使用模拟数据，不含任何个人隐私或原始采集数据。</p>
+  </div>
+</footer>
+
+<script>
+/* ---------- 章节数据 ---------- */
+const chapters = [
+  {slug:"ch01-07-basics", title:"第1–7章 基础", desc:"安装 / Hello World / 变量 / 运算符 / 控制流 / 字符串格式化 / 文件读写入门", cnt:10},
+  {slug:"ch08-functions", title:"第8章 函数", desc:"形参实参 / 默认参数 / 关键字参数 / 可变参数 / 局部·全局·nonlocal / 返回值", cnt:12},
+  {slug:"ch09-modules", title:"第9章 模块", desc:"自定义模块 / import 机制 / __name__ / sys 模块", cnt:5},
+  {slug:"ch10-data-structures", title:"第10章 数据结构", desc:"列表 / 元组 / 字典 / 字符串方法 / 序列", cnt:6},
+  {slug:"ch11-problem-solving", title:"第11章 解决问题", desc:"备份脚本的四个演进版本 / 设计思路", cnt:5},
+  {slug:"ch12-oop", title:"第12章 面向对象编程", desc:"类与对象 / 方法 / 继承 / 实例变量", cnt:7},
+  {slug:"ch13-io", title:"第13章 输入输出", desc:"文件读写 / pickle 序列化 / 用户输入", cnt:4},
+  {slug:"ch14-exceptions", title:"第14章 异常", desc:"try/except / raise / finally / with 语句", cnt:4},
+  {slug:"ch15-stdlib", title:"第15章 标准库", desc:"logging / 版本检查 / Yahoo 搜索（API 可能已失效）", cnt:3},
+  {slug:"ch16-more", title:"第16章 更多内容", desc:"lambda 表达式 / 列表推导式", cnt:2},
+  {slug:"examples/address-book", title:"综合示例：通讯录", desc:"基于 pickle 的完整联系人管理小程序（增删改查）", cnt:1},
+];
+const grid = document.getElementById('chapterGrid');
+chapters.forEach(c=>{
+  const div=document.createElement('div'); div.className='card';
+  div.innerHTML=`<div class="slug">${c.slug}</div><h3>${c.title}</h3><p>${c.desc}</p>
+    <div class="cnt">示例代码：${c.cnt} 个</div>`;
+  grid.appendChild(div);
+});
+
+/* ---------- 代码片段（部分真实示例）---------- */
+const snippets = {
+  "helloworld.py": {ch:"ch01-07-basics", code:`#!/usr/bin/python\n#Filename: helloworld.py\n\nprint('Hello World')`},
+  "func_default.py": {ch:"ch08-functions", code:`#!/usr/bin/python\n# Filename: func_default.py\n\ndef say(message, times = 1):\n    print(message * times)\n\nsay('Hello')\nsay('World', 5)`},
+  "using_list.py": {ch:"ch10-data-structures", code:`#!/usr/bin/python\n# Filename: using_list.py\n\nshoplist = ['apple', 'mango', 'carrot', 'banana']\nprint('I have', len(shoplist), 'items to purchase.')\nprint('These items are:', end=' ')\nfor item in shoplist:\n    print(item, end=' ')\nprint('\\nI also have to buy rice.')\nshoplist.append('rice')\nprint('My shopping list is now', shoplist)\nshoplist.sort()\nprint('Sorted shopping list is', shoplist)\nprint('The first item I will buy is', shoplist[0])\nolditem = shoplist[0]\ndel shoplist[0]\nprint('I bought the', olditem)\nprint('My shopping list is now', shoplist)\ninput()`},
+  "try_catch.py": {ch:"ch14-exceptions", code:`# -*- coding:UTF-8 -*-\n#!/usr/bin/python\n# Filename: try_except.py\n\ntry:\n    text = input('Enter something --> ')\nexcept EOFError:\n    print('Why did you do an EOF on me?')\nexcept KeyboardInterrupt:\n    print('You cancelled the operation.')\nelse:\n    print('You entered {0} 哈哈'.format(text))`},
+  "list_comprehension.py": {ch:"ch16-more", code:`# -*- coding: UTF-8 -*-\n#!/usr/bin/python\n# Filename: list_comprehension.py\n\nlistone = [2,3,4]\nlisttwo = [2*i for i in listone if i > 2]\nprint(listtwo)`},
+  "contacts.py": {ch:"examples/address-book", code:`#!/usr/bin/python\n# 通讯录程序（综合示例，节选）\nimport pickle\n\nclass contacts:\n    def __init__(self, name):\n        self.name = name\n        self.info = None\n    def add(self, address_book):\n        self.info = input('请输入联系人的电话号码：\\n')\n        address_book[self.name] = self.info\n    @staticmethod\n    def printall(address_book):\n        print('\\nName\\t Mobile\\n')\n        for key in address_book.keys():\n            print(key, '\\t', address_book[key])\n\n# 完整逻辑见仓库 examples/address-book/contacts.py`, warn:true},
+};
+const tabsEl=document.getElementById('codeTabs');
+const viewEl=document.getElementById('codeView');
+let firstKey=null;
+Object.keys(snippets).forEach((k,i)=>{
+  const t=document.createElement('div'); t.className='tab'+(i===0?' active':'');
+  t.textContent=k; t.onclick=()=>showSnippet(k);
+  tabsEl.appendChild(t);
+  if(i===0) firstKey=k;
+});
+function showSnippet(k){
+  [...tabsEl.children].forEach(t=>t.classList.toggle('active', t.textContent===k));
+  const s=snippets[k];
+  viewEl.textContent = (s.warn? '# ⚠️ 含用户输入，Notebook 中建议仅阅读不运行\n' : '') + s.code + '\n\n# ── 所属：'+s.ch+' ──';
+}
+showSnippet(firstKey);
+
+/* ---------- 模拟通讯录 ---------- */
+const book = { "李雷":"13800000001", "韩梅梅":"13800000002", "王芳":"13912345678" };
+const out=document.getElementById('simOut');
+function log(s){ out.textContent += '\n'+s; out.scrollTop=out.scrollHeight; }
+function addContact(){
+  const n=document.getElementById('cName').value.trim();
+  const p=document.getElementById('cPhone').value.trim();
+  if(!n||!p){log('! 请输入姓名和电话');return;}
+  if(book[n]){log('! 联系人 '+n+' 已存在');return;}
+  book[n]=p; log('✓ 已添加：'+n+' / '+p);
+  document.getElementById('cName').value='';document.getElementById('cPhone').value='';
+}
+function searchContact(){
+  const n=document.getElementById('cName').value.trim();
+  if(!n){log('! 请输入要查找的姓名');return;}
+  if(book[n]) log('🔎 找到：'+n+' -> '+book[n]); else log('🔎 未找到：'+n);
+}
+function delContact(){
+  const n=document.getElementById('cName').value.trim();
+  if(!n){log('! 请输入要删除的姓名');return;}
+  if(book[n]){delete book[n];log('🗑 已删除：'+n);}else log('🗑 联系人不存在：'+n);
+}
+function displayAll(){
+  out.textContent='Name\t\tMobile\n'+'─'.repeat(28);
+  Object.keys(book).forEach(k=>log(k+'\t\t'+book[k]));
+  log('— 共 '+Object.keys(book).length+' 条（模拟数据）');
+}
+</script>
+</body>
+</html>

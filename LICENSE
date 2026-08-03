@@ -1,0 +1,21 @@
+# 许可证 / License
+
+本仓库的代码示例改编自 **《A Byte of Python》**（作者 Swaroop C H，中文版《简明 Python 教程》）。
+
+## 代码与文档许可
+- 原始教程与示例代码：© Swaroop C H，基于 **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)** 许可发布。
+- 本仓库的结构整理、重命名、README 与展示页（index.html）：© 2026 Wade，同样以 **CC BY-SA 4.0** 发布。
+
+你可以在以下地址查看完整的许可条款：
+- 人类可读概述：https://creativecommons.org/licenses/by-sa/4.0/
+- 完整法律文本：https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+## 署名要求（CC BY-SA 4.0）
+若你 reuse / 改编本仓库内容，必须：
+1. **注明出处**：注明作者 Swaroop C H 及原书《A Byte of Python》，并给出本仓库链接；
+2. **相同方式共享**：任何演绎作品须以 CC BY-SA 4.0 或兼容许可发布。
+
+## 免责声明
+- 第 15 章 `yahoo_search.py` 依赖的旧版 Yahoo API 可能已失效，仅供学习参考。
+- 示例程序的输出文件（如 `*.data`、`contactsfile.data`）为运行时产物，已通过 `.gitignore` 排除，不会进入版本库。
+- 本仓库不包含任何个人隐私数据或原始采集数据；展示页（index.html）仅使用**模拟数据**演示运行效果。

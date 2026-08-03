@@ -1,0 +1,19 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.pyo
+.ipynb_checkpoints/
+tmp/
+
+# ===== 运行时生成的数据文件（示例程序会产生）=====
+*.data
+contactsfile.data
+
+# ===== 系统 / 编辑器 =====
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# ===== 日志 =====
+*.log
